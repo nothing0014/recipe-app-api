@@ -1,0 +1,11 @@
+"""
+Views for the user API.
+"""
+from rest_framework import generics
+
+from user.serializers import UserSerializer
+
+
+class CreateUserView(genrics.CreateAPIView):
+    """Create a new user in the system."""
+    serializers_class = UserSerializer
