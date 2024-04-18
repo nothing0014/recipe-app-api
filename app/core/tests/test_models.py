@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 from core import models
 
+
 class ModelTests(TestCase):
     """Test models."""
 
@@ -26,7 +27,7 @@ class ModelTests(TestCase):
 
     def test_new_user_email_normalized(self):
         """Test email is normalized for new users."""
-        sample_emails=[
+        sample_emails = [
             ['test1@EXAMPLE.com', 'test1@example.com'],
             ['Test2@Example.com', 'Test2@example.com'],
             ['TEST3@EXAMPLE.com', 'TEST3@example.com'],
@@ -58,12 +59,13 @@ class ModelTests(TestCase):
             'testpass123',
         )
 
+
         recipe = models.Recipe.objects.create(
             user=user,
             title='Sample recipe name',
             time_minutes=5,
             price=Decimal('5.50'),
-            description='Sample recipe description.',
+            description='Sample receipe description.',
         )
 
-        self.assertEqual(str(recipe),recipe.title)
+        self.assertEqual(str(recipe), recipe.title)
