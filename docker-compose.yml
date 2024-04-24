@@ -34,4 +34,4 @@ services:
 
 volumes:
   dev-db-data:
-  dev-statc-data:
+  dev-static-data:
