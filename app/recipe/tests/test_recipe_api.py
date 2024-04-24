@@ -5,7 +5,7 @@ from decimal import Decimal
 import tempfile
 import os
 
-from PIL import image
+from PIL import Image
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -34,8 +34,8 @@ def detail_url(recipe_id):
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
 def image_upload_url(recipe_id):
-    """Create and return a recipe detail URL."""
-    return reverse('recipe:recipe-detail', args=[recipe_id])
+    """Create and return an image upload URL."""
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
@@ -377,6 +377,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(recipe.ingredients.count(), 0)
 
+
 class ImageUploadTests(TestCase):
     """Tests for the image upload API."""
 
@@ -402,15 +403,15 @@ class ImageUploadTests(TestCase):
             payload = {'image': image_file}
             res = self.client.post(url, payload, format='multipart')
 
-        self.recipe.refresh_fromdb()
+        self.recipe.refresh_from_db()
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn('image', res.data)
         self.assertTrue(os.path.exists(self.recipe.image.path))
 
     def test_upload_image_bad_request(self):
-        """Test uploading invalid image."""
+       """Test uploading an invalid image."""
         url = image_upload_url(self.recipe.id)
-        payload = {'image':'notanimage'}
-        res = self.client.post(url, payload, format='multpart')
+        payload = {'image': 'notanimage'}
+        res = self.client.post(url, payload, format='multipart')
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
